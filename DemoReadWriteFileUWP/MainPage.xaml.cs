@@ -36,33 +36,16 @@ namespace DemoReadWriteFileUWP
         private async void CreateFile_Click(object sender, RoutedEventArgs e)
         {
             StorageFile storageFile = await demo.CreateFileAsync(GetFileName());
-            if (storageFile != null)
-            {
-                // created file
-                ReadFromFile();
-                feedback.Text = "File created.";
-            }
-            else
-            {
-                // could not create file
-                feedback.Text = "Could not create file. Check file name.";
-            }
+            ReadFromFile();
         }
 
         private async void OverwriteFile_Click(object sender, RoutedEventArgs e)
         {
             // write to file 
             String message = textToWrite.Text + Environment.NewLine;
-            bool isSuccessful = await demo.WriteToFileAsync(GetFileName(), message);
-            if (isSuccessful)
-            {
-                ReadFromFile();
-                feedback.Text = "File overwritten.";
-            }
-            else
-            {
-                feedback.Text = "Could not write to file. Check file name.";
-            }    
+            await demo.WriteToFileAsync(GetFileName(), message);
+
+            ReadFromFile();
         }
 
 
@@ -70,28 +53,13 @@ namespace DemoReadWriteFileUWP
         {
             // append to file
             String message = textToAppend.Text + Environment.NewLine;
-            bool isSuccessful = await demo.AppendToFileAsync(GetFileName(), message);
-            if (isSuccessful)
-            {
-                ReadFromFile();
-                feedback.Text = "Appended text.";
-            }
-            else
-            {
-                feedback.Text = "Could not append to file. Check file name.";
-            }
+            await demo.AppendToFileAsync(GetFileName(), message);
+            
+            ReadFromFile();
         }
         private async void ReadFromFile()
         {
-            String text = await demo.ReadFromFileAsync(GetFileName());
-            if (text != null)
-            {
-                textInFile.Text = text;
-            }
-            else
-            {
-                feedback.Text += " Error reading from file.";
-            }
+            textInFile.Text = await demo.ReadFromFileAsync(GetFileName());
         }
         private String GetFileName()
         {
