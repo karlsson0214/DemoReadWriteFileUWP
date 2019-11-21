@@ -8,7 +8,47 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="TextBlock" >
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="Margin" Value="20" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="Margin" Value="20" />
+            </Style>
+            <Style TargetType="PasswordBox">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="Margin" Value="20" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="Margin" Value="20" />
+            </Style>
+        </StackPanel.Resources>
 
-    </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBox Name="fileName" Text="filename" MinWidth="640"/>
+            <TextBlock Text=".txt" />
+            <Button Name="CreateFile" Content="Create File" Click="CreateFile_Click"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="path: "/>
+            <TextBox Name="path" Text="" FontSize="15" IsReadOnly="True" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" >
+            <TextBox Name="textToWrite" Text="Write this text to file." MinWidth="640" />
+            <Button Name="OverwriteFile" Content="Overwrite file" Click="OverwriteFile_Click" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" >
+            <TextBox Name="textToAppend" Text="Append this text to file." MinWidth="640" />
+            <Button Name="AppendFile" Content="Append file" Click="AppendFile_Click"/>
+        </StackPanel>
+        <TextBlock Text="Text in file:" />
+        <TextBlock Name="textInFile" />
+        <TextBlock Name="feedback" VerticalAlignment="Bottom"/>
+    </StackPanel>
 </Page>

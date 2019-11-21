@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,9 +23,79 @@ namespace DemoReadWriteFileUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        FileDemo demo;
         public MainPage()
         {
             this.InitializeComponent();
+            demo = new FileDemo();
+            // show path in GUI
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            path.Text = storageFolder.Path;
+        }
+
+        private async void CreateFile_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFile storageFile = await demo.CreateFileAsync(GetFileName());
+            if (storageFile != null)
+            {
+                // created file
+                ReadFromFile();
+                feedback.Text = "File created.";
+            }
+            else
+            {
+                // could not create file
+                feedback.Text = "Could not create file. Check file name.";
+            }
+        }
+
+        private async void OverwriteFile_Click(object sender, RoutedEventArgs e)
+        {
+            // write to file 
+            String message = textToWrite.Text + Environment.NewLine;
+            bool isSuccessful = await demo.WriteToFileAsync(GetFileName(), message);
+            if (isSuccessful)
+            {
+                ReadFromFile();
+                feedback.Text = "File overwritten.";
+            }
+            else
+            {
+                feedback.Text = "Could not write to file. Check file name.";
+            }    
+        }
+
+
+        private async void AppendFile_Click(object sender, RoutedEventArgs e)
+        {
+            // append to file
+            String message = textToAppend.Text + Environment.NewLine;
+            bool isSuccessful = await demo.AppendToFileAsync(GetFileName(), message);
+            if (isSuccessful)
+            {
+                ReadFromFile();
+                feedback.Text = "Appended text.";
+            }
+            else
+            {
+                feedback.Text = "Could not append to file. Check file name.";
+            }
+        }
+        private async void ReadFromFile()
+        {
+            String text = await demo.ReadFromFileAsync(GetFileName());
+            if (text != null)
+            {
+                textInFile.Text = text;
+            }
+            else
+            {
+                feedback.Text += " Error reading from file.";
+            }
+        }
+        private String GetFileName()
+        {
+            return fileName.Text + ".txt";
         }
     }
 }
