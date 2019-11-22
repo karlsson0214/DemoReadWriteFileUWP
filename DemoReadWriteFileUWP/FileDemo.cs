@@ -17,7 +17,7 @@ namespace DemoReadWriteFileUWP
         {
             // Create file; replace if exists.
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await storageFolder.CreateFileAsync(fileName, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            StorageFile file = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             return file;
         }
 
@@ -62,7 +62,7 @@ namespace DemoReadWriteFileUWP
         {
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             StorageFile file = await storageFolder.GetFileAsync(fileName);            
-            string text = await Windows.Storage.FileIO.ReadTextAsync(file);
+            string text = await FileIO.ReadTextAsync(file);
             return text;
         }
     }
